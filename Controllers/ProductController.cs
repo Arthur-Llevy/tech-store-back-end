@@ -1,7 +1,7 @@
+using System.Runtime.CompilerServices;
 using api.entities;
 using api.interfaces;
 using api.models;
-using api.services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace tech_store.Controllers;
@@ -23,10 +23,30 @@ public class ProductController : ControllerBase
         return Ok(products);
     }
 
+    [HttpGet("{Id}")]
+    public ActionResult<Product>? GetById(int Id)
+    {
+        return _productService.GetById(Id);
+    }
+
     [HttpPost]
     public ActionResult<ProductModel> Create(ProductModel product)
     {
         var newProduct = _productService.Create(product);
         return Ok(newProduct);
+    }
+
+    [HttpDelete("{Id}")]
+    public ActionResult Delete(int Id)
+    {
+        _productService.Delete(Id);
+        return Ok();
+    }
+
+    [HttpPatch("{Id}")]
+    public ActionResult Update(int Id, ProductModel product)
+    {
+        _productService.Update(Id, product);
+        return Ok();
     }
 }

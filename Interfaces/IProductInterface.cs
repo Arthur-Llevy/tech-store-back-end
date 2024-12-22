@@ -7,7 +7,7 @@ public interface IProductInterface
 {
     ProductModel Create(ProductModel product);
     List<Product> GetAll();
-    Product GetById(int id);
-    void Update(Product product);
-    void Delete(Product product);
+    Product? GetById(int Id);
+    void Update(int Id, ProductModel product);
+    void Delete(int Id);
 }

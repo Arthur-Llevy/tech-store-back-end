@@ -2,8 +2,6 @@ using api.entities;
 using api.interfaces;
 using api.models;
 using Api.Context;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.services;
 
@@ -26,9 +24,15 @@ public class ProductService : IProductInterface
         return product;
     }
 
-    public void Delete(Product product)
+    public void Delete(int Id)
     {
-        throw new NotImplementedException();
+        var productToDelete = _context.Product.Where(x => x.Id == Id).FirstOrDefault();
+
+        if (productToDelete != null)
+        {
+            _context.Product.Remove(productToDelete);
+            _context.SaveChanges();
+        }
     }
 
     public List<Product> GetAll()
@@ -36,13 +40,22 @@ public class ProductService : IProductInterface
         return _context.Product.ToList();
     }
 
-    public Product GetById(int id)
+    public Product? GetById(int Id)
     {
-        throw new NotImplementedException();
+        var product = _context.Product.Where(x => x.Id == Id).FirstOrDefault();
+
+        return product;
     }
 
-    public void Update(Product product)
+    public void Update(int Id, ProductModel product)
     {
-        throw new NotImplementedException();
+        var productToEdit = _context.Product.Where(x => x.Id == Id).FirstOrDefault();
+
+        if (productToEdit != null)
+        {
+            productToEdit.Name = product.Name;
+            _context.Product.Update(productToEdit);
+            _context.SaveChanges();
+        }
     }
 }
